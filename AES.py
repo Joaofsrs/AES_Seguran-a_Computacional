@@ -193,7 +193,7 @@ def shift_rows_inv(word):
     word[3] = aux3
 
 '''
-    A funcao xtime
+    A funcao Gmul usada para fazer a multiplicacao de polinomios
 '''
 def Gmul(aux, aux1):
     ret = 0x00
@@ -210,15 +210,19 @@ def Gmul(aux, aux1):
     return (ret%256)
 
 '''
-    A funcao mix_column
+    A funcao mix_column eh usada na funcao AES, onde ela eh realizada pela cifra Rijndael, junto com a etapa ShiftRows
+    pode se observar que eh realizada uma multiplicacao de polinomios onde temos:
+
+    |aux[0]|    |2 3 1 1|   |word[0]|
+    |aux[1]|  = |1 2 3 1| * |word[1]|
+    |aux[2]|    |1 1 2 3|   |word[2]|
+    |aux[3]|    |3 1 1 2|   |word[3]|
+
+    Temos aux como a coluna final
 '''
+
 def mix_column(word):
     aux = []
-    
-    #b0 = word[i*4]
-    #b1 = word[(i*4)+1]
-    #b2 = word[(i*4)+2]
-    #b3 = word[(i*4)+3]
 
     for i in range(4):
         aux.append(Gmul(0x02, word[i*4]) ^ Gmul(0x03, word[(i*4)+1]) ^ word[(i*4)+2] ^ word[(i*4)+3])
@@ -227,6 +231,18 @@ def mix_column(word):
         aux.append(Gmul(0x03, word[i*4]) ^ word[(i*4)+1] ^ word[(i*4)+2] ^ Gmul(0x02, word[(i*4)+3]))
 
     return aux
+
+'''
+    A funcao mix_column_inv eh usada na funcao AES_inv, onde ela eh realizada pela cifra Rijndael, junto com a etapa ShiftRows
+    pode se observar que eh realizada uma multiplicacao de polinomios onde temos:
+
+    |aux[0]|    |14 11 13 09|   |word[0]|
+    |aux[1]|  = |09 14 11 13| * |word[1]|
+    |aux[2]|    |13 09 14 11|   |word[2]|
+    |aux[3]|    |11 13 09 14|   |word[3]|
+
+    Temos aux como a coluna final
+'''
 
 def mix_column_inv(word):
     aux = []
