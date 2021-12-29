@@ -1,4 +1,4 @@
-# AES_Seguran-a_Computacional
+# AES_Segurança_Computacional
 Trabalho de Segurança computacional do semestre 2021/1 da Universidade de Brasilia
 
 Foi necessário instalar o opencv para pegar a imagem.  Versao do compilador: Python 3.9
